@@ -6,7 +6,7 @@
 /*   By: mdo-carm <mdo-carm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:28:50 by mdo-carm          #+#    #+#             */
-/*   Updated: 2022/04/23 20:23:44 by mdo-carm         ###   ########.fr       */
+/*   Updated: 2022/04/26 21:58:59 by mdo-carm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,19 @@ char	*final_output(char **output)
 {
 	char	*final_output;
 	char	*temp;
-	int		i;
 
-	if (ft_strchr(*output, '\n') != 0)
+	temp = ft_strdup(*output);
+	if (ft_strchr(*output, '\n') > 0)
 	{
-		temp = ft_substr(*output, 0, ft_strlen(*output));
-		i = ft_strlen(*output) - ft_strlen(temp);
-		final_output = ft_substr(*output, 0, i);
+		temp = ft_strchr(*output, '\n');
+		temp++;
+		final_output = ft_substr(*output, 0, ft_strlen(*output) - ft_strlen(temp));
 		free(*output);
+		*output = ft_strdup(temp);
 		printf("%s", final_output);
-		return (0);
+		return (final_output);
 	}
 	free(*output);
-	printf("%s", final_output);
 	return (0);
 }
 
@@ -136,32 +136,28 @@ char	*get_next_line(int fd)
 		return (NULL);
 	temp_buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char *));
 	read_output = read(fd, temp_buf, BUFFER_SIZE);
+	if (read_output == 0)
+		return (NULL);
 	if (!output[fd])
 		output[fd] = ft_strdup("");
 	while (read_output > 0)
 	{
 		temp_buf[read_output] = '\0';
 		output[fd] = ft_strjoin(output[fd], temp_buf);
-		if (ft_strchr(temp_buf, '\n') != 0)
+		if (ft_strchr(output[fd], '\n') != 0)
 			break ;
 		read_output = read(fd, temp_buf, BUFFER_SIZE);
 	}
 	free(temp_buf);
-	return (final_output(&(output[fd])));
+	return (final_output(&output[fd]));
 }
 
 int	main()
 {
-	// char *c = (char *) calloc(100, sizeof(char));
-	// int	num;
 	int fd = open("text.txt", O_RDONLY);
 
 	get_next_line(fd);
-	// printf("fd = %d\n", fd);
-	// num = read(fd, c, 5);
-	// printf("%d\n", num);
-	// printf("%s\n", c);
-	// num = read(fd, c, 5);
-	// printf("%d\n", num);
-	// printf("%s\n", c);
+	get_next_line(fd);
+	get_next_line(fd);
+	get_next_line(fd);
 }
