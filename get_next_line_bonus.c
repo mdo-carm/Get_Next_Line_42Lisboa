@@ -39,13 +39,13 @@ char	*final_output(char **output)
 
 char	*get_next_line(int fd)
 {
-	static char	*output[OPEN_MAX];
+	static char	*output[100000];
 	char		temp_buf[BUFFER_SIZE + 1];
 	char		*temp;
 	char		*temp2;
 	int			read_output;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || fd > OPEN_MAX)
+	if (BUFFER_SIZE <= 0 || fd < 0 || fd > 100000)
 		return (NULL);
 	read_output = read(fd, temp_buf, BUFFER_SIZE);
 	while (read_output > 0)
