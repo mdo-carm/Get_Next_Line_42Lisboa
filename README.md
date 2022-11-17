@@ -1,2 +1,2 @@
 # Get_Next_Line
-"This project is your very first project as a student at 42. You will need to recode a few functions of the C standard library as well as some other utility functions(..)"
+"May it be a file, stdin, or even later a network connection, you will always need a way to read content line by line. It is time to start working on this function, which will be essential for your future projects."
